@@ -7,6 +7,13 @@ namespace MonkeyValidator.Validator;
 
 public static class MonkeyClassValidatorExtensions
 {
+    /// <summary>
+    /// Setup custom rules for your object.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="instance"></param>
+    /// <param name="rules"></param>
+    /// <returns></returns>
     public static MonkeyClassValidator<T> BuildValidator<T>(this T instance, params Func<T, IMonkeyValidator>[] rules) where T : class
     {
         var validator = new MonkeyClassValidator<T>();
@@ -38,7 +45,7 @@ public static class MonkeyClassValidatorExtensions
     }
 
 
-    public static void Validate(this List<IMonkeyClassValidator> classValidators)
+    internal static void Validate(this List<IMonkeyClassValidator> classValidators)
     {
         classValidators.ThrowIfNull();
         var errors = classValidators.SelectMany(x => x.Validators.SelectMany(y => y.Errors)).ToList();
@@ -48,7 +55,7 @@ public static class MonkeyClassValidatorExtensions
         }
     }
 
-    public static void Validate(this List<IMonkeyClassValidator> classValidators, Action<List<string>> onValidationFailed)
+    internal static void Validate(this List<IMonkeyClassValidator> classValidators, Action<List<string>> onValidationFailed)
     {
         classValidators.ThrowIfNull();
         var errors = classValidators.SelectMany(x => x.Validators.SelectMany(y => y.Errors)).ToList();

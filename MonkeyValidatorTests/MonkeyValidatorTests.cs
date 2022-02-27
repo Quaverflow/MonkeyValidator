@@ -60,7 +60,7 @@ public class MonkeyValidatorTests
                             | Rule for: Something went wrong. (Object reference not set to an instance of an object.at MonkeyValidatorTests.TestClassValidator.<>c.<SetupValidator>b__0_2(TestClass y) 
                             in C:\Users\mirko\source\repos\MonkeyValidator\MonkeyValidatorTests\TestClassValidator.cs:line 12
                             at MonkeyValidator.Validator.MonkeyClassValidatorExtensions.BuildValidator[T](T instance, Func`2[] rules) 
-                            in C:\Users\mirko\source\repos\MonkeyValidator\MonkeyValidator\Validator\MonkeyClassValidatorExtensions.cs:line 18)
+                            in C:\Users\mirko\source\repos\MonkeyValidator\MonkeyValidator\Validator\MonkeyClassValidatorExtensions.cs:line 25)
                             | Rule for: TestClass1. (Expected to not be null)";
         var trimmedResult = result.Message.Trim().Replace(" ", "").Replace("\n", "").Replace("\r", "");
         var trimmedAssumedResult = assumedResult.Trim().Replace(" ", "").Replace("\n", "").Replace("\r", "");
