@@ -1,11 +1,24 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace MonkeyValidator.Validator.Extensions;
 
 public static class MonkeyValidatorGeneralExtensions
 {
+    /// <summary>
+    /// Create an instance of the MonkeyValidator class.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="sut"></param>
+    /// <param name="ruleForName"></param>
+    /// <returns></returns>
     public static MonkeyValidator<T> GetValidator<T>(this T sut, [CallerArgumentExpression("sut")] string? ruleForName = null) => new(sut, ruleForName);
 
+    /// <summary>
+    /// Throws an exception if there are errors, containing the a list of Errors and a formatted string version in Message
+    /// </summary>
+    /// <param name="validator"></param>
+    /// <exception cref="MonkeyValidatorException"></exception>
     public static void Execute(this IMonkeyValidator validator)
     {
         if (validator.Errors.Any())
@@ -16,6 +29,11 @@ public static class MonkeyValidatorGeneralExtensions
         }
     }
 
+    /// <summary>
+    /// Allows you to pass your own logic in the event of validation failure, passing the Error list into your Action.
+    /// </summary>
+    /// <param name="validator"></param>
+    /// <param name="onValidationFailed"></param>
     public static void Execute(this IMonkeyValidator validator, Action<List<string>> onValidationFailed)
     {
         if (validator.Errors.Any())
@@ -26,6 +44,14 @@ public static class MonkeyValidatorGeneralExtensions
         }
     }
 
+    /// <summary>
+    /// Creates an on-the-fly rule to chain to the rest.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="validator"></param>
+    /// <param name="predicate"></param>
+    /// <param name="message"></param>
+    /// <returns></returns>
     public static MonkeyValidator<T> CustomRule<T>(this MonkeyValidator<T> validator, Func<T, bool> predicate, string? message = null)
     {
         if (!predicate.Invoke(validator.Sut))

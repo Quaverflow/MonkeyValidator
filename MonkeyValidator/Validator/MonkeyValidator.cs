@@ -1,10 +1,5 @@
 ﻿namespace MonkeyValidator.Validator;
 
-public interface IMonkeyValidator
-{
-    public List<string> Errors { get; }
-
-}
 public class MonkeyValidator<T> : IMonkeyValidator
 {
     private readonly string _ruleForName;
