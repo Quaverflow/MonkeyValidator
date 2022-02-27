@@ -186,4 +186,15 @@ public class MonkeyValidatorTests
         var validator = new TestClassChainableValidatorMulti();
         Assert.Throws<MonkeyValidatorException>(() => validator.Validate(sut));
     }
+
+    [Fact]
+    public void Test_ChainedValidationFailsMulti_Delegate()
+    {
+        var sut = new TestClassChainable("hello", new TestClassChained(7, new TestClassChainedNested(false)), new TestClass(2, "asdf"), new TestClass(123, "fdew"));
+        var validator = new TestClassChainableValidatorMulti();
+
+        var result = new List<string>();
+         validator.Validate(sut, x=> result.AddRange(x));
+        Assert.Equal(3, result.Count);
+    }
 }
