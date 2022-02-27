@@ -19,7 +19,6 @@ public static class MonkeyClassValidatorExtensions
             }
             catch (Exception e)
             {
-                //workaround for now
                 validator.Validators.Add(rule.GetValidator("Something went wrong").CustomRule(x => 1 == 2, e.GetFullStack().ToString()));
             }
         }
