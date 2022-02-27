@@ -197,4 +197,12 @@ public class MonkeyValidatorTests
          validator.Validate(sut, x=> result.AddRange(x));
         Assert.Equal(3, result.Count);
     }
+
+    [Fact]
+    public void Test_RuleFragment()
+    {
+        var sut = new TestClass(13, "hover");
+        Assert.Throws<MonkeyValidatorException>(() => sut.GetValidator().SumLengthOfStringAndNumberShouldBe(1).Execute());
+        sut.GetValidator().SumLengthOfStringAndNumberShouldBe(18).Execute();
+    }
 }
