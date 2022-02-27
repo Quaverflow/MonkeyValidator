@@ -164,10 +164,26 @@ public class MonkeyValidatorTests
     }
 
     [Fact]
-    public void Test_ChainedValidationFailsDeeper2()
+    public void Test_ChainedValidationSuccess()
     {
         var sut = new TestClassChainable("hello", new TestClassChained(7, new TestClassChainedNested(false)));
         var validator = new TestClassChainableValidator();
         validator.Validate(sut);
+    }
+
+    [Fact]
+    public void Test_ChainedValidationSuccessMulti()
+    {
+        var sut = new TestClassChainable("hello", new TestClassChained(7, new TestClassChainedNested(false)), new TestClass(5, "hello"), new TestClass(123, "hello"));
+        var validator = new TestClassChainableValidatorMulti();
+        validator.Validate(sut);
+    }
+
+    [Fact]
+    public void Test_ChainedValidationFailsMulti()
+    {
+        var sut = new TestClassChainable("hello", new TestClassChained(7, new TestClassChainedNested(false)), new TestClass(2, "asdf"), new TestClass(123, "fdew"));
+        var validator = new TestClassChainableValidatorMulti();
+        Assert.Throws<MonkeyValidatorException>(() => validator.Validate(sut));
     }
 }
