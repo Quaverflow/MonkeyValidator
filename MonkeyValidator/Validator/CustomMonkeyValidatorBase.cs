@@ -3,14 +3,17 @@ using MonkeyValidator.Utilities;
 
 namespace MonkeyValidator.Validator;
 
-public abstract class CustomMonkeyValidatorBase<T> where T : class
+public abstract class CustomMonkeyValidatorBase<T>
 {
+    internal readonly List<IMonkeyClassValidator> Validators = new();
+
     public void Validate(T instance)
     {
-        var validator = BuildValidator(instance);
-        validator.ThrowIfNull("You must setup your Validator in the constructor of your Custom Validator, before you can use it.");
-        validator.Validate();
+        Validators.Add(SetupValidator(instance));
+        Validators.Validate();
     }
 
-    protected abstract MonkeyClassValidator<T> BuildValidator(T instance);
+    protected abstract MonkeyClassValidator<T> SetupValidator(T instance);
+    internal MonkeyClassValidator<T> SetupInternal(T instance) => SetupValidator(instance);
+
 }

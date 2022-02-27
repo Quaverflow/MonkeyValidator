@@ -5,7 +5,7 @@ namespace MonkeyValidatorTests;
 
 public class TestClassValidator : CustomMonkeyValidatorBase<TestClass>
 {
-    protected override MonkeyClassValidator<TestClass> BuildValidator(TestClass instance)
+    protected override MonkeyClassValidator<TestClass> SetupValidator(TestClass instance)
     => instance.BuildValidator(
         y => y.Number.GetValidator().ShouldBeMoreThan(4),
         y => y.String.GetValidator().ShouldBe(x => x == "hello"),

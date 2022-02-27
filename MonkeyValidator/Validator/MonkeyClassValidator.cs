@@ -1,12 +1,11 @@
 ﻿namespace MonkeyValidator.Validator;
 
-public class MonkeyClassValidator<T>
+public class MonkeyClassValidator<T> : IMonkeyClassValidator
 {
-    internal List<IMonkeyValidator> Validators = new();
+    public List<IMonkeyValidator> Validators { get; } = new ();
 
     internal MonkeyClassValidator()
     {
-        
     }
     
 }

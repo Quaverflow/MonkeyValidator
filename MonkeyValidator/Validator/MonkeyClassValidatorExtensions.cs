@@ -17,10 +17,10 @@ public static class MonkeyClassValidatorExtensions
             {
                 validator.Validators.Add(rule.Invoke(instance));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 //workaround for now
-                validator.Validators.Add(rule.GetValidator("Something went wrong").CustomRule(x=> 1 == 2, e.GetFullStack().ToString()));
+                validator.Validators.Add(rule.GetValidator("Something went wrong").CustomRule(x => 1 == 2, e.GetFullStack().ToString()));
             }
         }
         return validator;
@@ -39,13 +39,21 @@ public static class MonkeyClassValidatorExtensions
     }
 
 
-    public static void Validate<T>(this MonkeyClassValidator<T> classValidator) where T : class
+    public static void Validate(this List<IMonkeyClassValidator> classValidators)
     {
-        classValidator.ThrowIfNull();
-        var errors = classValidator.Validators.SelectMany(x => x.Errors).ToList();
+        classValidators.ThrowIfNull();
+        var errors = classValidators.SelectMany(x => x.Validators.SelectMany(y => y.Errors)).ToList();
         if (errors.Any())
         {
             throw new MonkeyValidatorException(errors);
         }
+    }
+
+    public static MonkeyClassValidator<TParent> Chain<TParent, TChild>(this MonkeyClassValidator<TParent> parent, CustomMonkeyValidatorBase<TChild> chain, TChild instance)
+        where TChild : class where TParent : class
+    {
+        var validator = chain.SetupInternal(instance);
+        parent.Validators.AddRange(validator.Validators);
+        return parent;
     }
 }

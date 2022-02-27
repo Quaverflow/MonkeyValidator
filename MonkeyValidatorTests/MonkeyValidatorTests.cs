@@ -57,7 +57,7 @@ public class MonkeyValidatorTests
         var validator = new TestClassValidator();
         var result = Assert.Throws<MonkeyValidatorException>(() => validator.Validate(sut));
         var assumedResult = @"| Rule for: Number. (Expected 3 to be more than 4)
-                            | Rule for: Something went wrong. (Object reference not set to an instance of an object.at MonkeyValidatorTests.TestClassValidator.<>c.<BuildValidator>b__0_2(TestClass y) 
+                            | Rule for: Something went wrong. (Object reference not set to an instance of an object.at MonkeyValidatorTests.TestClassValidator.<>c.<SetupValidator>b__0_2(TestClass y) 
                             in C:\Users\mirko\source\repos\MonkeyValidator\MonkeyValidatorTests\TestClassValidator.cs:line 12
                             at MonkeyValidator.Validator.MonkeyClassValidatorExtensions.BuildValidator[T](T instance, Func`2[] rules) 
                             in C:\Users\mirko\source\repos\MonkeyValidator\MonkeyValidator\Validator\MonkeyClassValidatorExtensions.cs:line 18)
@@ -145,5 +145,29 @@ public class MonkeyValidatorTests
         }));
 
         Assert.Single(testCallback);
+    }
+
+    [Fact]
+    public void Test_ChainedValidationFails()
+    {
+        var sut = new TestClassChainable("hello", new TestClassChained(3, new TestClassChainedNested(true)));
+        var validator = new TestClassChainableValidator();
+        Assert.Throws<MonkeyValidatorException>(() => validator.Validate(sut));
+    }
+
+    [Fact]
+    public void Test_ChainedValidationFailsDeeper()
+    {
+        var sut = new TestClassChainable("hello", new TestClassChained(7, new TestClassChainedNested(true)));
+        var validator = new TestClassChainableValidator();
+        Assert.Throws<MonkeyValidatorException>(() => validator.Validate(sut));
+    }
+
+    [Fact]
+    public void Test_ChainedValidationFailsDeeper2()
+    {
+        var sut = new TestClassChainable("hello", new TestClassChained(7, new TestClassChainedNested(false)));
+        var validator = new TestClassChainableValidator();
+        validator.Validate(sut);
     }
 }
