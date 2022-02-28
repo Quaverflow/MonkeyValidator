@@ -1,6 +1,6 @@
 ﻿namespace MonkeyValidator.Validator.ConditionalValidation;
 
-public class MonkeyConditionalValidationContext<T> : IConditionalValidation<T>
+public class MonkeyConditionalValidationContext<T> : IConditionalMonkeyValidation<T>
 {
     public MonkeyConditionalValidationContext(MonkeyValidator<T> validator)
     {
@@ -8,7 +8,7 @@ public class MonkeyConditionalValidationContext<T> : IConditionalValidation<T>
         IfCondition = new IfCondition<T>(Validator);
     }
 
-    public IfCondition<T> IfCondition { get; set; }
+    internal IfCondition<T> IfCondition { get; set; }
     public MonkeyValidator<T> Validator { get; set; }
 
 }

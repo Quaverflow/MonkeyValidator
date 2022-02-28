@@ -1,6 +1,6 @@
 ﻿namespace MonkeyValidator.Validator.ConditionalValidation;
 
-public class IfCondition<T> : IIfCondition<T>
+internal class IfCondition<T> : IIfCondition<T>
 {
     public IfCondition(MonkeyValidator<T> validator)
     {

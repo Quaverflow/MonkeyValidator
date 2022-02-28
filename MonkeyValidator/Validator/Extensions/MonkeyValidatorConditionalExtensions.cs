@@ -4,7 +4,7 @@ namespace MonkeyValidator.Validator.Extensions;
 
 public static class MonkeyValidatorConditionalExtensions
 {
-    public static MonkeyValidator<T> ConditionalValidation<T>(this MonkeyValidator<T> validator, params Func<MonkeyConditionalValidationContext<T>, IConditionalValidation<T>>[] validations)
+    public static MonkeyValidator<T> ConditionalValidation<T>(this MonkeyValidator<T> validator, params Func<MonkeyConditionalValidationContext<T>, IConditionalMonkeyValidation<T>>[] validations)
     {
         foreach (var rule in validations)
         {
@@ -39,7 +39,7 @@ public static class MonkeyValidatorConditionalExtensions
         return context;
     }
 
-    public static IConditionalValidation<T> Else<T>(this IIfCondition<T> context, Action<MonkeyValidator<T>> validationToExecute)
+    public static IConditionalMonkeyValidation<T> Else<T>(this IIfCondition<T> context, Action<MonkeyValidator<T>> validationToExecute)
     {
         if (context.Fulfilled)
         {
