@@ -34,13 +34,18 @@ public static class MonkeyValidatorGeneralExtensions
     /// </summary>
     /// <param name="validator"></param>
     /// <param name="onValidationFailed"></param>
-    public static void Execute(this IMonkeyValidator validator, Action<List<string>> onValidationFailed)
+    public static void Execute(this IMonkeyValidator validator, Action<List<string>> onValidationFailed, bool throwMonkeyException = false)
     {
         if (validator.Errors.Any())
         {
             var errors = new List<string>(validator.Errors);
             validator.Errors.Clear();
             onValidationFailed.Invoke(errors);
+
+            if (throwMonkeyException)
+            {
+                throw new MonkeyValidatorException(errors);
+            }
         }
     }
 
@@ -120,8 +125,8 @@ public static class MonkeyValidatorGeneralExtensions
         }
 
         return validator;
-    }  
-    
+    }
+
     public static MonkeyValidator<T> ShouldNotBeTypeOf<T>(this MonkeyValidator<T> validator, Type expected, string? message = null)
     {
         if (typeof(T) == expected)
