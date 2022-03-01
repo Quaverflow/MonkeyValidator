@@ -24,7 +24,7 @@ public class GettingStarted
     {
         const string sut = "Hello";
 
-        sut.GetValidator()
+        Assert.Throws<InvalidOperationException>(()=> sut.GetValidator()
             .LengthShouldBeMoreOrEqualTo(5)
             .ConditionalValidation(x => x
                 .If(y => y.StartsWith('h'), y => y.ShouldContainSingle('o'))
@@ -34,7 +34,7 @@ public class GettingStarted
                         .Else(t => t.ShouldNotBeNull())))
                 .Else(_ => throw new InvalidOperationException()))
             .ShouldEndWith("lo", true)
-            .Execute();
+            .Execute());
     }
 
     [Fact]
@@ -150,7 +150,7 @@ public class GettingStartedReusable
     [Fact]
     public void GettingStarted_Reusable()
     {
-        var sut = new MyClass("hello", 2);
+        var sut = new MyClass("hello", 2, new MyClass2("hello"));
         var validator = new MyClassValidator();
 
         validator.Validate(sut);
