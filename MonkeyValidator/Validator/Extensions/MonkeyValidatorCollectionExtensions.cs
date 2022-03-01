@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using MonkeyValidator.Validator.ConditionalValidation;
+using MonkeyValidator.Validator.ForeachValidation;
 
 namespace MonkeyValidator.Validator.Extensions;
 
@@ -15,6 +17,26 @@ public static class MonkeyValidatorCollectionExtensions
 
         return count;
     }
+
+    public static MonkeyValidator<T> ValidateForeach<T, TValue>(this MonkeyValidator<T> validator, params Func<MonkeyValidator<TValue>, MonkeyValidator<TValue>>[] validations) where T : IEnumerable<TValue>
+    {
+        foreach (var value in validator.Sut)
+        {
+            var valueValidator = value.GetValidator();
+            foreach (var rule in validations)
+            {
+                rule.Invoke(valueValidator);
+            }
+
+            if (valueValidator.Errors.Any())
+            {
+                validator.Errors.AddRange(valueValidator.Errors);
+            }
+        }
+
+        return validator;
+    }
+
 
     #region Counting
 
@@ -147,7 +169,7 @@ public static class MonkeyValidatorCollectionExtensions
     #endregion
 
     #region Containing
-    
+
     public static MonkeyValidator<T> ShouldContain<T, TValue>(this MonkeyValidator<T> validator, TValue expected, string? message = null) where T : IEnumerable
     {
         if (!validator.Sut.Cast<TValue>().Contains(expected))

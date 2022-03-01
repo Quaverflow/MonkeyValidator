@@ -206,3 +206,49 @@ public class MonkeyValidatorTests
         sut.GetValidator().SumLengthOfStringAndNumberShouldBe(18).Execute();
     }
 }
+
+public interface ISomeService
+{
+    void DoSomething(string document);
+}
+
+
+// Example service
+public class SomeService : ISomeService
+{
+    private readonly IStringValidator _stringValidator;
+
+    public SomeService(IStringValidator stringValidator)
+    {
+        _stringValidator = stringValidator;
+    }
+
+    public void DoSomething(string document)
+    {
+        _stringValidator.ValidateDocumentX(document);
+
+        //rest of the code
+    }
+}
+
+// Injectable validation
+public interface IStringValidator
+{
+    void ValidateDocumentX(string document);
+}
+
+// Validation implementation
+public class StringValidators : IStringValidator
+{
+    public void ValidateDocumentX(string document) 
+        => document.GetValidator()
+            .ShouldContainSingle("ID:")
+            .ShouldContain(3, "Joke", true)
+            .ShouldNotContainAny("<script>", true)
+            .ConditionalValidation(x => x
+                .If(y => y.Contains("laugh"), y => y.ShouldNotContainAny("cry", false))
+                .Else(y => y.ShouldContainSingle("frown")))
+            .ShouldStartWith("Hello", false)
+            .ShouldEndWith("Goodbye", false)
+            .Execute();
+}

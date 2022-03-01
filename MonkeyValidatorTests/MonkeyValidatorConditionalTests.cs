@@ -1,4 +1,5 @@
-﻿using MonkeyValidator.Validator;
+﻿using System.Collections.Generic;
+using MonkeyValidator.Validator;
 using MonkeyValidator.Validator.Extensions;
 using Xunit;
 
@@ -34,5 +35,36 @@ public class MonkeyValidatorConditionalTests
                 .Else(y => y.ShouldNotBeMultipleOf(53)))
             .ShouldBeMultipleOf(3)
             .Execute();
+    }
+}
+
+
+public class MonkeyValidatorForeachTests
+{
+    [Fact]
+    public void Test_Works()
+    {
+        var sut = new List<string> { "hello", "goodbye" };
+
+        sut.GetValidator()
+            .ValidateForeach<List<string>, string>(
+                x => x.ShouldContainSingle("e", true),
+                x => x.ShouldNotContainAny('t', false))
+            .CountShouldBeEqualTo(2)
+            .Execute();
+    }
+
+    [Fact]
+    public void Test_Fails()
+    {
+        var sut = new List<string> { "hello", "goodbye" };
+
+        Assert.Throws<MonkeyValidatorException>(()=> 
+            sut.GetValidator()
+            .ValidateForeach<List<string>, string>(
+                x => x.ShouldContainSingle("a", true),
+                x => x.ShouldNotContainAny('e', false))
+            .CountShouldBeEqualTo(3)
+            .Execute());
     }
 }

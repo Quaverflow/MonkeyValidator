@@ -4,10 +4,31 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Authors>Quaverflow</Authors>
+    <Description>A validation library for on-the-fly or reusable validation.</Description>
+    <Copyright>Copyright ()c Mirko Sangrigoli 2022</Copyright>
+    <PackageProjectUrl>https://github.com/Quaverflow/MonkeyValidator/</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>validation;validator;fluent;linq;chainable;assert;assertion;checks;analysis;validate;safe coding;</PackageTags>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/Quaverflow/MonkeyValidator/</RepositoryUrl>
+    <PackageIcon>Icon.jpg</PackageIcon>
+    <FileVersion>1.0.0.0</FileVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Icon.jpg">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 </Project>
