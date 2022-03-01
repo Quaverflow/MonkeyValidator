@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <Authors>Quaverflow</Authors>
     <Description>A validation library for on-the-fly or reusable validation.</Description>
-    <Copyright>Copyright ()c Mirko Sangrigoli 2022</Copyright>
+    <Copyright>Copyright (c) Mirko Sangrigoli 2022</Copyright>
     <PackageProjectUrl>https://github.com/Quaverflow/MonkeyValidator/</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>validation;validator;fluent;linq;chainable;assert;assertion;checks;analysis;validate;safe coding;</PackageTags>

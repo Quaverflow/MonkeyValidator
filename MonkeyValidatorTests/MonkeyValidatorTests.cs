@@ -205,6 +205,10 @@ public class MonkeyValidatorTests
         Assert.Throws<MonkeyValidatorException>(() => sut.GetValidator().SumLengthOfStringAndNumberShouldBe(1).Execute());
         sut.GetValidator().SumLengthOfStringAndNumberShouldBe(18).Execute();
     }
+
+
+
+
 }
 
 public interface ISomeService

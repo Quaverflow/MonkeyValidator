@@ -50,9 +50,9 @@ public class MonkeyValidatorForeachTests
         var sut = new List<string> { "hello", "goodbye" };
 
         sut.GetValidator()
-            .ValidateForeach<List<string>, string>(
-                x => x.ShouldContainSingle("e", true),
-                x => x.ShouldNotContainAny('t', false)
+            .ValidateForeach<List<string>, string>(x => x
+                .ShouldContainSingle("e", true)
+                .ShouldNotContainAny('t', false)
                     .ConditionalValidation(y => y
                         .If(t => t.StartsWith('h'), t => t.ShouldContainSingle('o', false))
                         .ElseIf(t => t.EndsWith('e'), t => t.LengthShouldBe(7))
@@ -67,9 +67,9 @@ public class MonkeyValidatorForeachTests
 
         var sut = new List<string> { "hello", "goodbye" };
         Assert.Throws<MonkeyValidatorException>(()=>sut.GetValidator()
-        .ValidateForeach<List<string>, string>(
-            x => x.ShouldContainSingle("a", true),
-            x => x.ShouldNotContainAny('e', false))
+        .ValidateForeach<List<string>, string>(x => x
+            .ShouldContainSingle("a", true)
+            .ShouldNotContainAny('e', false))
         .CountShouldBeEqualTo(3)
         .Execute());
 

@@ -24,4 +24,8 @@
     <ProjectReference Include="..\MonkeyValidator\MonkeyValidator.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="GettingStarted\" />
+  </ItemGroup>
+
 </Project>

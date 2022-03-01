@@ -18,16 +18,13 @@ public static class MonkeyValidatorCollectionExtensions
     }
 
     public static MonkeyValidator<TCollection> ValidateForeach<TCollection, TValue>(this MonkeyValidator<TCollection> validator, 
-        params Func<MonkeyValidator<TValue>, MonkeyValidator<TValue>>[] validations) 
+        Func<MonkeyValidator<TValue>, MonkeyValidator<TValue>> rules) 
         where TCollection : IEnumerable<TValue>
     {
         foreach (var value in validator.Sut)
         {
             var valueValidator = value.GetValidator();
-            foreach (var rule in validations)
-            {
-                rule.Invoke(valueValidator);
-            }
+                rules.Invoke(valueValidator);
 
             if (valueValidator.Errors.Any())
             {
