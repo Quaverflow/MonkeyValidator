@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using MonkeyValidator.Validator.ConditionalValidation;
-using MonkeyValidator.Validator.ForeachValidation;
 
 namespace MonkeyValidator.Validator.Extensions;
 
@@ -18,7 +17,9 @@ public static class MonkeyValidatorCollectionExtensions
         return count;
     }
 
-    public static MonkeyValidator<T> ValidateForeach<T, TValue>(this MonkeyValidator<T> validator, params Func<MonkeyValidator<TValue>, MonkeyValidator<TValue>>[] validations) where T : IEnumerable<TValue>
+    public static MonkeyValidator<TCollection> ValidateForeach<TCollection, TValue>(this MonkeyValidator<TCollection> validator, 
+        params Func<MonkeyValidator<TValue>, MonkeyValidator<TValue>>[] validations) 
+        where TCollection : IEnumerable<TValue>
     {
         foreach (var value in validator.Sut)
         {
