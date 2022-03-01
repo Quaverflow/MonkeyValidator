@@ -20,7 +20,7 @@ public class MonkeyValidatorTests
         var result = Assert.Throws<MonkeyValidatorException>(
             () => sut.GetValidator().ShouldBe(x => Equals(x, actual)).Execute());
 
-        Assert.Equal($"| Rule for: sut. (Expectations failed on value {sut})", result.Message);
+        Assert.Equal($"\n| Rule for: sut. (Expectations failed on value {sut})", result.Message);
     }
 
     [Theory]
@@ -33,7 +33,7 @@ public class MonkeyValidatorTests
     {
         var result =
             Assert.Throws<MonkeyValidatorException>(() => sut.GetValidator().ShouldBeEqualTo(actual).Execute());
-        Assert.Equal($"| Rule for: sut. (Expected {actual}, actual {sut})", result.Message);
+        Assert.Equal($"\n| Rule for: sut. (Expected {actual}, actual {sut})", result.Message);
     }
 
     [Theory]
@@ -47,7 +47,7 @@ public class MonkeyValidatorTests
         var result =
             Assert.Throws<MonkeyValidatorException>(
                 () => sut.GetValidator().ShouldBeEqualTo(actual, "oh no").Execute());
-        Assert.Equal("| Rule for: sut. (oh no)", result.Message);
+        Assert.Equal("\n| Rule for: sut. (oh no)", result.Message);
     }
 
     [Fact]
@@ -60,7 +60,7 @@ public class MonkeyValidatorTests
                             | Rule for: Something went wrong. (Object reference not set to an instance of an object.at MonkeyValidatorTests.TestClassValidator.<>c.<SetupValidator>b__0_2(TestClass y) 
                             in C:\Users\mirko\source\repos\MonkeyValidator\MonkeyValidatorTests\TestClassValidator.cs:line 12
                             at MonkeyValidator.Validator.MonkeyClassValidatorExtensions.BuildValidator[T](T instance, Func`2[] rules) 
-                            in C:\Users\mirko\source\repos\MonkeyValidator\MonkeyValidator\Validator\MonkeyClassValidatorExtensions.cs:line 25)
+                            in C:\Users\mirko\source\repos\MonkeyValidator\MonkeyValidator\Validator\MonkeyClassValidatorExtensions.cs:line 21)
                             | Rule for: TestClass1. (Expected to not be null)";
         var trimmedResult = result.Message.Trim().Replace(" ", "").Replace("\n", "").Replace("\r", "");
         var trimmedAssumedResult = assumedResult.Trim().Replace(" ", "").Replace("\n", "").Replace("\r", "");

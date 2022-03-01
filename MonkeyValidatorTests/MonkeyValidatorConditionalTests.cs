@@ -61,20 +61,17 @@ public class MonkeyValidatorForeachTests
             .Execute();
     }
 
-
-
-
     [Fact]
     public void Test_Fails()
     {
 
         var sut = new List<string> { "hello", "goodbye" };
-        sut.GetValidator()
+        Assert.Throws<MonkeyValidatorException>(()=>sut.GetValidator()
         .ValidateForeach<List<string>, string>(
             x => x.ShouldContainSingle("a", true),
             x => x.ShouldNotContainAny('e', false))
         .CountShouldBeEqualTo(3)
-        .Execute();
+        .Execute());
 
     }
 }
