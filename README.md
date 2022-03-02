@@ -63,3 +63,8 @@ We can circumvent the issue by creating an injectable service like so:
 ![injectable validation](https://user-images.githubusercontent.com/81313844/156066301-0b0ec936-d2c7-45a8-8b74-5b029c2c1af0.jpg)
 
 This has the added advantage that if we need to inject other services that are required to fulfil our validation, those are encapsulated in the IStringValidator, and thus not required when unit testing. The IStringValidator can then be reused to add all the validation methods related to strings.
+
+## Foreach Logic
+
+![Foreach](https://user-images.githubusercontent.com/81313844/156269896-dfea8429-c3e7-44bf-8cbb-06d51e98a7b7.jpg)
+
