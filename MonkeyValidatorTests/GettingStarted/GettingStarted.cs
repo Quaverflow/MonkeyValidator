@@ -19,23 +19,6 @@ public class GettingStarted
             .Execute();
     }
 
-    [Fact]
-    public void GettingStarted_Conditional()
-    {
-        const string sut = "Hello";
-
-        Assert.Throws<InvalidOperationException>(()=> sut.GetValidator()
-            .LengthShouldBeMoreOrEqualTo(5)
-            .ConditionalValidation(x => x
-                .If(y => y.StartsWith('h'), y => y.ShouldContainSingle('o'))
-                .ElseIf(y => y.Equals("not today"), y => y
-                    .ConditionalValidation(p => p
-                        .If(t => t.StartsWith("m"), t => t.ShouldNotContainAny("daily vitamin", true))
-                        .Else(t => t.ShouldNotBeNull())))
-                .Else(_ => throw new InvalidOperationException()))
-            .ShouldEndWith("lo", true)
-            .Execute());
-    }
 
     [Fact]
     public void GettingStarted_FailFast()
@@ -73,12 +56,12 @@ public class GettingStarted
     [Fact]
     public void GettingStarted_CustomAction()
     {
-        var sut = new Dictionary<int, bool> { {3, true}, {4, false} };
+        var sut = new Dictionary<int, bool> { { 3, true }, { 4, false } };
 
         var errors = new List<string>();
 
         sut.GetValidator()
-            .ShouldContainSingle(new KeyValuePair<int,bool>(3, true))
+            .ShouldContainSingle(new KeyValuePair<int, bool>(3, true))
             .Execute(x => errors.AddRange(x));
     }
 
@@ -86,12 +69,12 @@ public class GettingStarted
     [Fact]
     public void GettingStarted_ActionInjection()
     {
-        var sut = new Dictionary<int, bool> { {3, true}, {4, false} };
+        var sut = new Dictionary<int, bool> { { 3, true }, { 4, false } };
 
         var errors = new List<string>();
 
         sut.GetValidator()
-            .ShouldContainSingle(new KeyValuePair<int,bool>(3, true))
+            .ShouldContainSingle(new KeyValuePair<int, bool>(3, true))
             .Execute(x => errors.AddRange(x), true);
     }
 
@@ -107,6 +90,37 @@ public class GettingStarted
             .CustomRule(_ => someUserDefinedCondition)
             .Execute();
     }
+
+}
+
+public class TestFragments
+{
+    [Fact]
+    public void GettingStarted_Conditional()
+    {
+        const string sut = "I'm leaving you because you don't fulfill my Poirot mustache fantasy";
+
+        sut.GetValidator()
+           .LengthShouldBeMoreOrEqualTo(5)
+           .ValidateStartWith()
+           .ShouldEndWith("sy", true)
+           .Execute();
+    }
+}
+
+public static class ValidateLoversSpitefulNote
+{
+    public static MonkeyValidator<string> OnNotToday(this MonkeyValidator<string> validator) 
+        => validator.ConditionalValidation(p => p
+            .If(t => t.StartsWith("Fit"), t => t.ShouldNotContainAny("stop working out!", true))
+            .Else(t => t.ShouldNotBeNull()));
+
+    public static MonkeyValidator<string> ValidateStartWith(this MonkeyValidator<string> validator) 
+        => validator.ConditionalValidation(x => x
+            .If(y => y.StartsWith('I'), y => y.ShouldNotContainAny('z', false))
+            .ElseIf(y => y.StartsWith("p"), y => y
+                .OnNotToday())
+            .Else(_ => throw new InvalidOperationException()));
 }
 
 
